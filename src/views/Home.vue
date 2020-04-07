@@ -1,6 +1,22 @@
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
+    <p>
+      Name:
+      <input type="text" v-model="newProductName" />
+    </p>
+    <p>
+      Description:
+      <input type="text" v-model="newProductDescription" />
+    </p>
+    <p>
+      Price:
+      <input type="text" v-model="newProductPrice" />
+    </p>
+    <p>
+      Image_url:
+      <input type="text" v-model="newProductImage_url" />
+    </p>
     <button v-on:click="addProduct()">Add a new Product</button>
     <!-- <h1>{{ products }}</h1> -->
     <div v-bind:key="product.id" v-for="product in products">
@@ -23,6 +39,10 @@ export default {
     return {
       message: "Welcome to Vue.js!",
       products: [],
+      newProductName: "",
+      newProductDescription: "",
+      newProductPrice: "",
+      newProductImage_url: "",
     };
   },
   created: function() {
@@ -35,17 +55,21 @@ export default {
   },
   methods: {
     addProduct: function() {
-      console.log("adding the Product");
+      console.log(this.newProductName);
       var params = {
-        name: "iphone",
-        description: "a cool phone",
-        price: 850,
-        // image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSylNp-zjPToXSqmp-OEPYbaLdsF8yoh5rWW0bOtYQVVqDzYvjXQ7viCWg9lMLnbQWM7bVg0797&usqp=CAc"
+        name: this.newProductName,
+        description: this.newProductDescription,
+        price: this.newProductPrice,
+        image_url: this.newProductImage_url,
       };
 
       axios.post("/api/products", params).then(response => {
         console.log(response.data);
         this.products.push(response.data);
+        this.newProductName;
+        this.newProductDescription;
+        this.newProductPrice;
+        this.newProductImage_url;
       });
     },
   },
