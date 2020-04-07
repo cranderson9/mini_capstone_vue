@@ -21,10 +21,13 @@
     <!-- <h1>{{ products }}</h1> -->
     <div v-bind:key="product.id" v-for="product in products">
       <p>name: {{ product.name }}</p>
-      <p>description: {{ product.description }}</p>
-      <p>price: {{ product.price }}</p>
       <!-- <p>image_url: {{ product.image_url }}</p> -->
-      <img v-bind:src="product.image_url" />
+      <button v-on:click="showInfo(product)">Show more info</button>
+      <div v-if="currentProduct === product">
+        <p>price: {{ product.price }}</p>
+        <p>description: {{ product.description }}</p>
+        <img v-bind:src="product.image_url" />
+      </div>
       <hr />
     </div>
   </div>
@@ -37,12 +40,13 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      message: "Welcome to Vue.js!",
+      message: "Mini-Capstone",
       products: [],
       newProductName: "",
       newProductDescription: "",
       newProductPrice: "",
       newProductImage_url: "",
+      currentProduct: {},
     };
   },
   created: function() {
@@ -71,6 +75,12 @@ export default {
         this.newProductPrice;
         this.newProductImage_url;
       });
+    },
+
+    showInfo: function(product) {
+      console.log("showing the info");
+      console.log(product);
+      this.currentProduct = product;
     },
   },
 };
