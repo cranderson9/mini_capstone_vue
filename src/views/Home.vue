@@ -20,13 +20,34 @@
     <button v-on:click="addProduct()">Add a new Product</button>
     <!-- <h1>{{ products }}</h1> -->
     <div v-bind:key="product.id" v-for="product in products">
+      <p>id: {{ product.id }}</p>
       <p>name: {{ product.name }}</p>
       <!-- <p>image_url: {{ product.image_url }}</p> -->
       <button v-on:click="showInfo(product)">Show more info</button>
       <div v-if="currentProduct === product">
         <p>price: {{ product.price }}</p>
         <p>description: {{ product.description }}</p>
-        <img v-bind:src="product.image_url" />
+        <p>
+          <img v-bind:src="product.image_url" />
+        </p>
+
+        <p>
+          Name:
+          <input type="text" v-model="product.name" />
+        </p>
+        <p>
+          Description:
+          <input type="text" v-model="product.description" />
+        </p>
+          Price:
+          <input type="text" v-model="product.price" >
+        </p>
+        </p>
+          Image_url:
+          <input type="text" v-model="product.image_url" />
+        </p>
+
+        <button v-on:click="updateProduct(product)">Update the product</button>
       </div>
       <hr />
     </div>
@@ -81,6 +102,21 @@ export default {
       console.log("showing the info");
       console.log(product);
       this.currentProduct = product;
+    },
+    updateProduct: function(product) {
+      console.log("update prouduct");
+      console.log(product);
+
+      var params = {
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        image_url: product.image_url
+      }
+      axios.patch(`api/products/${product.id}`, params).then(response => {
+        console.log(response.data);
+        product = response.data;
+      });
     },
   },
 };
