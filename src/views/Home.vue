@@ -39,15 +39,19 @@
           Description:
           <input type="text" v-model="product.description" />
         </p>
+        <p>
           Price:
-          <input type="text" v-model="product.price" >
+          <input type="text" v-model="product.price" />
         </p>
-        </p>
+        <p>
           Image_url:
           <input type="text" v-model="product.image_url" />
         </p>
 
         <button v-on:click="updateProduct(product)">Update the product</button>
+        <div>
+          <button v-on:click="deleteProduct(product)">Delete product</button>
+        </div>
       </div>
       <hr />
     </div>
@@ -111,11 +115,22 @@ export default {
         name: product.name,
         price: product.price,
         description: product.description,
-        image_url: product.image_url
-      }
+        image_url: product.image_url,
+      };
       axios.patch(`api/products/${product.id}`, params).then(response => {
         console.log(response.data);
         product = response.data;
+      });
+    },
+    deleteProduct: function(product) {
+      console.log(product);
+      console.log("deleting the product");
+
+      axios.delete(`/api/products/${product.id}`).then(response => {
+        console.log(response.data);
+
+        var index = this.products.indexOf(product);
+        this.products.splice(index, 1);
       });
     },
   },
